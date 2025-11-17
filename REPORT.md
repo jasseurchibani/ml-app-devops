@@ -81,15 +81,24 @@ pytest tests/test_model.py -v
 
 ### Code Quality Checks
 
+**Lint code with Flake8:**
+```bash
+flake8 src/ tests/
+```
+
+**Expected output:** `0` (no errors) ✅
+
 **Format code with Black:**
 ```bash
 black src/ tests/
 ```
 
-**Lint code with Flake8:**
-```bash
-flake8 src/ tests/
-```
+**Flake8 Configuration:**
+- Configuration file: `.flake8`
+- Max line length: 88 characters (Black compatible)
+- Ignores: E203, E266, W503, W504
+- Max complexity: 10
+- See `LINTING.md` for detailed documentation
 
 ## Docker Support
 
