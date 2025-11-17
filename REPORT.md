@@ -1,0 +1,167 @@
+# ML App DevOps - Report
+
+## Project Setup
+
+### Environment Setup
+1. **Created Virtual Environment:**
+   ```bash
+   python -m venv .venv
+   ```
+
+2. **Activated Virtual Environment:**
+   ```powershell
+   .venv\Scripts\Activate.ps1
+   ```
+
+3. **Installed Dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+   
+   **Note:** The original requirements.txt specified versions incompatible with Python 3.12. Updated to compatible versions:
+   - scikit-learn: 1.7.2
+   - pandas: 2.3.3
+   - numpy: 2.3.5
+   - matplotlib: 3.10.7
+   - seaborn: 0.13.2
+   - pytest: 9.0.1
+   - black: 25.11.0
+   - flake8: 7.3.0
+
+## Running the Application
+
+### 1. Train the Model
+```bash
+python src/train.py
+```
+
+**What it does:**
+- Loads the Iris dataset
+- Splits data into training and test sets (80/20)
+- Trains a Logistic Regression model
+- Evaluates model performance
+- Saves the trained model to `models/iris_classifier.pkl`
+- Generates visualization plots:
+  - `confusion_matrix.png` - Shows prediction accuracy across classes
+  - `feature_importance.png` - Shows feature coefficients
+
+**Expected Output:**
+- Model accuracy score
+- Classification report (precision, recall, F1-score)
+- Saved model file
+- Generated plots
+
+### 2. Make Predictions
+```bash
+python src/predict.py
+```
+
+**What it does:**
+- Loads the trained model from `models/iris_classifier.pkl`
+- Runs example predictions on three sample flower measurements
+- Displays predicted class and probability distribution
+
+**Example Predictions:**
+- Input: `[5.1, 3.5, 1.4, 0.2]` → Expected: Setosa
+- Input: `[6.7, 3.0, 5.2, 2.3]` → Expected: Virginica
+- Input: `[5.9, 3.0, 4.2, 1.5]` → Expected: Versicolor
+
+## Testing the Application
+
+### Run Unit Tests
+```bash
+pytest tests/test_model.py -v
+```
+
+**What it tests:**
+- Model initialization
+- Training functionality
+- Prediction accuracy
+- Model save/load operations
+
+### Code Quality Checks
+
+**Format code with Black:**
+```bash
+black src/ tests/
+```
+
+**Lint code with Flake8:**
+```bash
+flake8 src/ tests/
+```
+
+## Docker Support
+
+The project includes a Dockerfile for containerization:
+
+```bash
+# Build Docker image
+docker build -t ml-app .
+
+# Run container
+docker run ml-app
+```
+
+## Project Structure
+```
+ml-app/
+├── src/
+│   ├── data_loader.py      # Load and preprocess Iris dataset
+│   ├── model.py            # IrisClassifier class definition
+│   ├── train.py            # Training script
+│   ├── predict.py          # Prediction script
+│   └── utils.py            # Visualization utilities
+├── tests/
+│   └── test_model.py       # Unit tests
+├── models/                 # Saved model directory
+├── requirements.txt        # Python dependencies
+├── Dockerfile             # Docker configuration
+└── README.md              # Project documentation
+```
+
+## API Endpoints
+
+**Note:** This application currently runs as a command-line tool and does not have REST API endpoints. To add API functionality, consider:
+
+1. **Adding Flask/FastAPI endpoints** for:
+   - `POST /predict` - Accept flower measurements, return prediction
+   - `GET /health` - Health check endpoint
+   - `GET /model/info` - Model metadata and performance metrics
+
+2. **Example Flask implementation:**
+   ```python
+   from flask import Flask, request, jsonify
+   
+   app = Flask(__name__)
+   classifier = IrisClassifier()
+   classifier.load_model('models/iris_classifier.pkl')
+   
+   @app.route('/predict', methods=['POST'])
+   def predict():
+       data = request.json
+       features = data['features']  # [sepal_length, sepal_width, petal_length, petal_width]
+       prediction = classifier.predict([features])[0]
+       return jsonify({'prediction': int(prediction)})
+   ```
+
+## Repository
+
+GitHub Repository: https://github.com/jasseurchibani/ml-app-devops
+
+## Conclusion
+
+The ML app successfully demonstrates:
+- ✅ Machine learning model training and evaluation
+- ✅ Model persistence and loading
+- ✅ Command-line prediction interface
+- ✅ Unit testing
+- ✅ Code quality tools (Black, Flake8)
+- ✅ Docker containerization support
+- ✅ Version control with Git/GitHub
+
+**Future enhancements:**
+- Add REST API with Flask/FastAPI
+- Implement CI/CD pipeline with GitHub Actions
+- Add model versioning
+- Deploy to cloud platform (AWS, Azure, GCP)
