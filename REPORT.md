@@ -127,17 +127,80 @@ Automated CI pipeline runs on every push and pull request:
 - Coverage reports (XML + HTML)
 - Docker image (tar.gz)
 
-## Docker Support
+## Docker Containerization
 
-The project includes a Dockerfile for containerization:
+### Docker Setup
+
+**Files:**
+- `Dockerfile` - Container image definition
+- `docker-compose.yml` - Multi-container orchestration
+- `.dockerignore` - Excludes unnecessary files from image
+- `docker-run.ps1` - PowerShell helper script (Windows)
+- `docker-run.sh` - Bash helper script (Linux/Mac)
+
+### Quick Start
+
+**1. Build the Docker image:**
+```bash
+docker build -t ml-app:latest .
+```
+
+**2. Run training in container:**
+```bash
+# Basic (model stays in container)
+docker run --rm ml-app:latest
+
+# With volume mount (model persists on host)
+docker run --rm -v ${PWD}/models:/app/models ml-app:latest
+```
+
+**3. Run predictions:**
+```bash
+docker run --rm -v ${PWD}/models:/app/models ml-app:latest python src/predict.py
+```
+
+**4. Run tests:**
+```bash
+docker run --rm ml-app:latest pytest tests/ -v
+```
+
+### Using Docker Compose
 
 ```bash
-# Build Docker image
-docker build -t ml-app .
+# Train the model
+docker-compose up ml-app-train
 
-# Run container
-docker run ml-app
+# Run predictions
+docker-compose up ml-app-predict
+
+# Run tests
+docker-compose up ml-app-test
 ```
+
+### Helper Scripts
+
+**Windows PowerShell:**
+```powershell
+.\docker-run.ps1
+```
+
+**Linux/Mac:**
+```bash
+chmod +x docker-run.sh
+./docker-run.sh
+```
+
+### Docker Image Specifications
+
+- **Base Image:** python:3.9-slim
+- **Working Directory:** /app
+- **Exposed Port:** 8000 (reserved for future API)
+- **Volumes:** 
+  - `/app/models` - Model persistence
+  - `/app/logs` - Application logs
+- **Default Command:** `python src/train.py`
+
+**See `DOCKER_GUIDE.md` for comprehensive documentation**
 
 ## Project Structure
 ```

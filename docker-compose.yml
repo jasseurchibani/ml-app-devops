@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  ml-app-train:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ml-app:latest
+    container_name: ml-app-train
+    command: python src/train.py
+    volumes:
+      - ./models:/app/models
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - ml-network
+    restart: "no"
+
+  ml-app-predict:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ml-app:latest
+    container_name: ml-app-predict
+    command: python src/predict.py
+    volumes:
+      - ./models:/app/models
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - ml-network
+    depends_on:
+      - ml-app-train
+    restart: "no"
+
+  ml-app-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ml-app:latest
+    container_name: ml-app-test
+    command: pytest tests/ -v
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - ml-network
+    restart: "no"
+
+networks:
+  ml-network:
+    driver: bridge

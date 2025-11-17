@@ -1,20 +1,67 @@
+# Python cache
 __pycache__
 *.pyc
 *.pyo
 *.pyd
 .Python
+*.so
+
+# Virtual environments
 .env
 .venv
 env/
 venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
 .idea
 .vscode
+*.swp
+*.swo
+
+# Logs and databases
 *.log
+*.sqlite
+*.db
+
+# Git
 .git
 .gitignore
+.gitattributes
+
+# Documentation
 README.md
+*.md
+!requirements.txt
+
+# Docker files
 Dockerfile*
 docker-compose*
+.dockerignore
+
+# Models (will be generated in container)
 models/*.pkl
+models/*.joblib
 !models/.gitkeep
+
+# Generated plots
 *.png
+*.jpg
+*.jpeg
+
+# Test artifacts
+.pytest_cache
+.coverage
+htmlcov/
+coverage.xml
+test-results.xml
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# OS specific
+.DS_Store
+Thumbs.db
