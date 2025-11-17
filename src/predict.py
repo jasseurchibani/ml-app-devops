@@ -3,12 +3,9 @@
 Prediction script for Iris classifier
 """
 
-import sys
-import os
-import numpy as np
-
 from model import IrisClassifier
 from data_loader import get_target_names
+
 
 def main():
     print("Iris Classifier Prediction")
@@ -16,7 +13,7 @@ def main():
     # Load model
     try:
         classifier = IrisClassifier()
-        classifier.load_model('models/iris_classifier.pkl')
+        classifier.load_model("models/iris_classifier.pkl")
         print("Model loaded successfully!")
     except FileNotFoundError:
         print("Model not found. Please run train.py first.")
@@ -45,6 +42,7 @@ def main():
         print("Probabilities:")
         for j, prob in enumerate(probability):
             print(f"  {target_names[j]}: {prob:.4f}")
+
 
 if __name__ == "__main__":
     main()
