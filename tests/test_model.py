@@ -1,12 +1,14 @@
 import sys
-import os
+from pathlib import Path
 
 import numpy as np
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
+# Add src directory to path for imports
+src_path = Path(__file__).parent.parent / "src"
+sys.path.insert(0, str(src_path))
 
-from src.data_loader import load_iris_data  # noqa: E402
-from src.model import IrisClassifier  # noqa: E402
+from data_loader import load_iris_data  # noqa: E402
+from model import IrisClassifier  # noqa: E402
 
 
 class TestIrisClassifier:

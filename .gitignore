@@ -38,3 +38,11 @@ venv.bak/
 .idea/
 *.swp
 *.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+test-results.xml
+*.log

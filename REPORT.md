@@ -100,6 +100,33 @@ black src/ tests/
 - Max complexity: 10
 - See `LINTING.md` for detailed documentation
 
+## CI/CD Pipeline
+
+### GitHub Actions Workflow
+Automated CI pipeline runs on every push and pull request:
+
+**Workflow:** `.github/workflows/ci.yml`
+
+**What it does:**
+1. ✅ Checks out code
+2. ✅ Sets up Python (3.9, 3.10, 3.11)
+3. ✅ Installs dependencies
+4. ✅ Runs flake8 linter
+5. ✅ Checks Black formatting
+6. ✅ Runs pytest with coverage
+7. ✅ Uploads test results and coverage reports as artifacts
+8. ✅ Builds Docker image
+9. ✅ Uploads Docker image as artifact
+
+**View workflow runs:**
+- GitHub Actions tab in repository
+- See `CI_WORKFLOW.md` for detailed documentation
+
+**Artifacts available after each run:**
+- Test results (JUnit XML)
+- Coverage reports (XML + HTML)
+- Docker image (tar.gz)
+
 ## Docker Support
 
 The project includes a Dockerfile for containerization:
